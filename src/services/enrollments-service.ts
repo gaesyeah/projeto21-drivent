@@ -1,4 +1,4 @@
-import { invalidDataError, notFoundError } from '@/errors';
+import { invalidDataError } from '@/errors';
 import { CreateAddressParams, CreateEnrollmentParams, addressRepository, enrollmentRepository } from '@/repositories';
 import { exclude } from '@/utils/prisma-utils';
 import { request } from '@/utils/request';
