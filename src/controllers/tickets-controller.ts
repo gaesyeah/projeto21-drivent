@@ -1,10 +1,8 @@
 import { CreateTicket, ticketsService } from '@/services';
 import { Request, Response } from 'express';
-import { CREATED } from 'http-status';
+import { CREATED, OK } from 'http-status';
 
 export async function createTicket (req: Request, res: Response) {
-  console.log(res.locals);
-
   const body = req.body as CreateTicket;
   const token = req.headers.authorization.replace('Bearer ', '') as string;
 
@@ -12,10 +10,12 @@ export async function createTicket (req: Request, res: Response) {
   res.status(CREATED).send(result);
 };
 
-export async function getTickets () {
-
+export async function getTickets (_req: Request, res: Response) {
+  const result = await ticketsService.getTickets();
+  res.status(OK).send(result);
 };
 
-export async function getTicketsTypes () {
-
+export async function getTicketsTypes (_req: Request, res: Response) {
+  const result = await ticketsService.getTicketsTypes();
+  res.status(OK).send(result);
 };

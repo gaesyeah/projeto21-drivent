@@ -5,7 +5,7 @@ import { CreateTicket } from "@/services";
 type FindTicketType = CreateTicket
 
 async function findTicketsTypeOrThrow (params: FindTicketType) {
-  return prisma.ticketType.findUnique({
+  return await prisma.ticketType.findUnique({
     where: {
       id: params.ticketTypeId
     }
@@ -23,7 +23,7 @@ async function findTicketOrThrow (enrollmentId: number) {
 type EnrollmentId = { id: number }
 
 async function findEnrollmentIdOrThrow (token: string) {
-  return prisma.$queryRaw<EnrollmentId[]>(
+  return await prisma.$queryRaw<EnrollmentId[]>(
     Prisma.sql`
       SELECT "Enrollment".id
       FROM "Enrollment"
@@ -33,7 +33,7 @@ async function findEnrollmentIdOrThrow (token: string) {
 };
 
 async function createTicket (enrollmentId: number, ticketTypeId: number) {
-  return prisma.ticket.create({
+  return await prisma.ticket.create({
     data: {
       status: 'RESERVED',
       ticketTypeId,
@@ -47,7 +47,7 @@ async function getTickets () {
 };
 
 async function getTicketsTypes () {
-
+  return await prisma.ticketType.findMany();
 };
 
 export const ticketsRepository = { createTicket, getTickets, getTicketsTypes, findTicketsTypeOrThrow, findEnrollmentIdOrThrow, findTicketOrThrow };

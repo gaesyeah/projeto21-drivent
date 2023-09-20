@@ -10,12 +10,12 @@ async function createTicket (params: CreateTicket, token: string) {
   if (!ticketType) throw notFoundError(`there isn't a ticketType with the id: ${params.ticketTypeId}`);
 
   const enrollmentArray = await ticketsRepository.findEnrollmentIdOrThrow(token); 
-  if (enrollmentArray.length < 1) throw notFoundError('you need to register an enrollment first');
+  if (enrollmentArray.length < 1) throw notFoundError('you need to register a enrollment first');
 
   const ticket = await ticketsRepository.findTicketOrThrow(enrollmentArray[0].id)
-  if (ticket) throw conflictError('You already have an ticket related to your enrollment');
+  if (ticket) throw conflictError('You already have a ticket related to your enrollment');
 
-  const { id, ticketTypeId, enrollmentId, status, createdAt, updatedAt} = await ticketsRepository.createTicket(enrollmentArray[0].id, ticketType.id);
+  const { id, ticketTypeId, enrollmentId, status, createdAt, updatedAt } = await ticketsRepository.createTicket(enrollmentArray[0].id, ticketType.id);
   
   return<TicketAndType>{ id, ticketTypeId, enrollmentId, status, ticketType, createdAt, updatedAt };
 };
@@ -25,7 +25,7 @@ async function getTickets () {
 };
 
 async function getTicketsTypes () {
-
+  return await ticketsRepository.getTicketsTypes();
 };
 
 export const ticketsService = { createTicket, getTickets, getTicketsTypes };
