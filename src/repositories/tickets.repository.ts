@@ -15,6 +15,9 @@ async function findTicketByEnrollmentIdOrThrow (enrollmentId: number) {
   return await prisma.ticket.findUnique({
     where: {
       enrollmentId
+    },
+    include: {
+      TicketType: true
     }
   })
 }
