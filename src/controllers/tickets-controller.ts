@@ -1,16 +1,15 @@
+import { AuthenticatedRequest } from '@/middlewares';
 import { CreateTicket, ticketsService } from '@/services';
 import { Request, Response } from 'express';
 import { CREATED, OK } from 'http-status';
 
-export async function createTicket (req: Request, res: Response) {
+export async function createTicket (req: AuthenticatedRequest, res: Response) {
   const body = req.body as CreateTicket;
-  const token = req.headers.authorization.replace('Bearer ', '') as string;
-
-  const result = await ticketsService.createTicket(body, token);
+  const result = await ticketsService.createTicket(body, req.userId);
   res.status(CREATED).send(result);
 };
 
-export async function getTickets (_req: Request, res: Response) {
+export async function getTickets (_req: AuthenticatedRequest, res: Response) {
   const result = await ticketsService.getTickets();
   res.status(OK).send(result);
 };

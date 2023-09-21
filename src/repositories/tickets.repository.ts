@@ -16,20 +16,19 @@ async function findTicketOrThrow (enrollmentId: number) {
   return await prisma.ticket.findUnique({
     where: {
       enrollmentId
+    },
+    select: {
+      id: true
     }
   })
 }
 
-type EnrollmentId = { id: number }
-
-async function findEnrollmentIdOrThrow (token: string) {
-  return await prisma.$queryRaw<EnrollmentId[]>(
-    Prisma.sql`
-      SELECT "Enrollment".id
-      FROM "Enrollment"
-      WHERE "Enrollment"."userId" = (SELECT "Session"."userId" FROM "Session" WHERE token = ${token})
-    `
-  )
+async function findEnrollmentIdOrThrow (userId: number) {
+  return await prisma.enrollment.findUnique({
+    where: {
+      userId
+    }
+  })
 };
 
 async function createTicket (enrollmentId: number, ticketTypeId: number) {
