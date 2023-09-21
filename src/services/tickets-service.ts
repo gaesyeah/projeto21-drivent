@@ -27,10 +27,8 @@ async function getTickets (userId: number) {
   const ticket = await ticketsRepository.findTicketByEnrollmentIdOrThrow(enrollment.id);
   if (!ticket) throw notFoundError("you don't have a ticket yet");
 
-  const { id, ticketTypeId, enrollmentId, status, createdAt, updatedAt, TicketType } = ticket
-
-  return<TicketAndType>{ id, ticketTypeId, enrollmentId, status, TicketType, createdAt, updatedAt };
-};
+  return ticket;
+}
 
 async function getTicketsTypes () {
   return await ticketsRepository.getTicketsTypes();
