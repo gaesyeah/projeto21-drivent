@@ -1,12 +1,12 @@
-import app, { init } from '@/app';
-import { prisma } from '@/config';
-import { duplicatedEmailError } from '@/errors';
 import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 import httpStatus from 'http-status';
 import supertest from 'supertest';
 import { createEvent, createUser } from '../factories';
 import { cleanDb } from '../helpers';
+import { duplicatedEmailError } from '@/errors';
+import app, { init } from '@/app';
+import { prisma } from '@/config';
 
 beforeAll(async () => {
   await init();

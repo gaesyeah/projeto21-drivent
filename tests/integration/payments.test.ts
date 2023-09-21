@@ -1,5 +1,3 @@
-import app, { init } from '@/app';
-import { prisma } from '@/config';
 import faker from '@faker-js/faker';
 import { TicketStatus } from '@prisma/client';
 import httpStatus from 'http-status';
@@ -7,13 +5,15 @@ import * as jwt from 'jsonwebtoken';
 import supertest from 'supertest';
 import {
   createEnrollmentWithAddress,
-  createPayment,
-  createTicket,
-  createTicketType,
   createUser,
+  createTicketType,
+  createTicket,
+  createPayment,
   generateCreditCardData,
 } from '../factories';
 import { cleanDb, generateValidToken } from '../helpers';
+import { prisma } from '@/config';
+import app, { init } from '@/app';
 
 beforeAll(async () => {
   await init();
