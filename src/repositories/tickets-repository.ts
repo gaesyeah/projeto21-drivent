@@ -3,10 +3,10 @@ import { CreateTicket } from "@/services";
 
 type FindTicketType = CreateTicket
 
-async function findTicketsTypeByIdOrThrow (params: FindTicketType) {
+async function findTicketsTypeByIdOrThrow (body: FindTicketType) {
   return await prisma.ticketType.findUnique({
     where: {
-      id: params.ticketTypeId
+      id: body.ticketTypeId
     }
   })
 };

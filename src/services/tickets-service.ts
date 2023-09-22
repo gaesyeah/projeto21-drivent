@@ -5,9 +5,9 @@ import { Ticket, TicketType } from "@prisma/client";
 export type CreateTicket = Omit<Ticket, 'id' | 'enrollmentId' | 'status' |'createdAt' | 'updatedAt' >;
 type TicketAndType = Ticket & { TicketType: TicketType };
 
-async function createTicket (params: CreateTicket, userId: number) {
-  const ticketType = await ticketsRepository.findTicketsTypeByIdOrThrow(params);
-  if (!ticketType) throw notFoundError(`there isn't a ticketType with the id: ${params.ticketTypeId}`);
+async function createTicket (body: CreateTicket, userId: number) {
+  const ticketType = await ticketsRepository.findTicketsTypeByIdOrThrow(body);
+  if (!ticketType) throw notFoundError(`there isn't a ticketType with the id: ${body.ticketTypeId}`);
 
   const enrollment = await ticketsRepository.findEnrollmentIdByUserIdOrThrow(userId); 
   if (!enrollment) throw notFoundError('you need to register a enrollment first');
