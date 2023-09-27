@@ -1,6 +1,6 @@
-import { ApplicationError, RequestError } from '@/protocols';
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { ApplicationError, RequestError } from '@/protocols';
 
 export function handleApplicationErrors(
   err: RequestError | ApplicationError | Error,

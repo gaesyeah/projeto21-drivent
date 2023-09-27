@@ -1,58 +1,65 @@
 import { prisma } from '../config/database';
-import { CreateTicket } from "@/services";
+import { CreateTicket } from '@/services';
 
-type FindTicketType = CreateTicket
+type FindTicketType = CreateTicket;
 
-async function findTicketsTypeByIdOrThrow (body: FindTicketType) {
+async function findTicketsTypeByIdOrThrow(body: FindTicketType) {
   return await prisma.ticketType.findUnique({
     where: {
-      id: body.ticketTypeId
-    }
-  })
-};
-
-async function findTicketByEnrollmentIdOrThrow (enrollmentId: number) {
-  return await prisma.ticket.findUnique({
-    where: {
-      enrollmentId
+      id: body.ticketTypeId,
     },
-    include: {
-      TicketType: true
-    }
-  })
+  });
 }
 
-async function findEnrollmentIdByUserIdOrThrow (userId: number) {
+async function findTicketByEnrollmentIdOrThrow(enrollmentId: number) {
+  return await prisma.ticket.findUnique({
+    where: {
+      enrollmentId,
+    },
+    include: {
+      TicketType: true,
+    },
+  });
+}
+
+async function findEnrollmentIdByUserIdOrThrow(userId: number) {
   return await prisma.enrollment.findUnique({
     where: {
-      userId
+      userId,
     },
     select: {
-      id: true
-    }
-  })
-};
+      id: true,
+    },
+  });
+}
 
-async function createTicket (enrollmentId: number, ticketTypeId: number) {
+async function createTicket(enrollmentId: number, ticketTypeId: number) {
   return await prisma.ticket.create({
     data: {
       status: 'RESERVED',
       ticketTypeId,
-      enrollmentId
-    }
-  })
-};
+      enrollmentId,
+    },
+  });
+}
 
-async function findTicketsByUserIdOrThrow (enrollmentId: number) {
+async function findTicketsByUserIdOrThrow(enrollmentId: number) {
   return await prisma.ticket.findUnique({
     where: {
-      enrollmentId
-    }
-  })
-};
+      enrollmentId,
+    },
+  });
+}
 
-async function getTicketsTypes () {
+async function getTicketsTypes() {
   return await prisma.ticketType.findMany();
-};
+}
 
-export const ticketsRepository = { createTicket, getTicketsTypes, findTicketsTypeByIdOrThrow, findEnrollmentIdByUserIdOrThrow, findTicketByEnrollmentIdOrThrow, findTicketsByUserIdOrThrow };
+export const ticketsRepository = {
+  createTicket,
+  getTicketsTypes,
+  findTicketsTypeByIdOrThrow,
+  findEnrollmentIdByUserIdOrThrow,
+  findTicketByEnrollmentIdOrThrow,
+  findTicketsByUserIdOrThrow,
+};

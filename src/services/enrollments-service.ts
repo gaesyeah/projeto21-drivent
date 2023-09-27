@@ -1,15 +1,17 @@
+import { Address, Enrollment } from '@prisma/client';
 import { invalidDataError } from '@/errors';
 import { CreateAddressParams, CreateEnrollmentParams, addressRepository, enrollmentRepository } from '@/repositories';
 import { exclude } from '@/utils/prisma-utils';
 import { request } from '@/utils/request';
-import { Address, Enrollment } from '@prisma/client';
 
-async function getAddressFromCEP(cep : string) {
-  const { data: { logradouro, complemento, bairro, localidade, uf, erro } } = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
+async function getAddressFromCEP(cep: string) {
+  const {
+    data: { logradouro, complemento, bairro, localidade, uf, erro },
+  } = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
   if (erro) throw invalidDataError('non-existent zip code');
 
-  type CepDataType = {logradouro: string, complemento: string, bairro: string, cidade: string, uf: string };
-  const cepData : CepDataType = { logradouro, complemento, bairro, cidade: localidade, uf };
+  type CepDataType = { logradouro: string; complemento: string; bairro: string; cidade: string; uf: string };
+  const cepData: CepDataType = { logradouro, complemento, bairro, cidade: localidade, uf };
 
   return cepData;
 }
