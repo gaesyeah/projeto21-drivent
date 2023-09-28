@@ -40,13 +40,6 @@ describe('GET /hotels', () => {
   });
 
   describe('when token is valid', () => {
-    it('Should respond with 404 (not found) if an hotel doesnt exist', async () => {
-      const user = await createUser();
-      const token = await generateValidToken(user);
-      const { status } = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
-      expect(status).toBe(404);
-    });
-
     it('Should respond with 404 (not found) if the user doesnt have an enrollment', async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
@@ -97,6 +90,13 @@ describe('GET /hotels', () => {
       expect(status).toBe(402);
     });
 
+    it('Should respond with 404 (not found) if an hotel doesnt exist', async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const { status } = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
+      expect(status).toBe(404);
+    });
+
     it('Should respond with 200 (OK) if everything is ok', async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
@@ -140,13 +140,6 @@ describe('GET /hotels/:hotelId', () => {
   });
 
   describe('when token is valid', () => {
-    it('Should respond with 404 (not found) if an hotel doesnt exist', async () => {
-      const user = await createUser();
-      const token = await generateValidToken(user);
-      const { status } = await server.get('/hotels/1').set('Authorization', `Bearer ${token}`);
-      expect(status).toBe(404);
-    });
-
     it('Should respond with 404 (not found) if the user doesnt have an enrollment', async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
@@ -205,6 +198,13 @@ describe('GET /hotels/:hotelId', () => {
       await createTicket(enrollment.id, ticketType.id, 'PAID');
       const { status } = await server.get(`/hotels/${id}`).set('Authorization', `Bearer ${token}`);
       expect(status).toBe(402);
+    });
+
+    it('Should respond with 404 (not found) if an hotel doesnt exist', async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const { status } = await server.get('/hotels/1').set('Authorization', `Bearer ${token}`);
+      expect(status).toBe(404);
     });
 
     it('Should respond with 200 (OK) if everything is ok', async () => {
