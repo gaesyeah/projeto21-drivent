@@ -49,7 +49,3 @@ export type InputPaymentBody = {
 };
 
 export type PaymentParams = Omit<Payment, 'id' | 'createdAt' | 'updatedAt'>;
-
-export type InputHotelBody = {
-  hotelId: number;
-};
