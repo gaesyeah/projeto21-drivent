@@ -40,12 +40,12 @@ describe('GET /hotels', () => {
   });
 
   describe('when token is valid', () => {
-    /* it('Should respond with 404 (not found) if an hotel doesnt exist', async () => {
+    it('Should respond with 404 (not found) if an hotel doesnt exist', async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const { status } = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
       expect(status).toBe(404);
-    }); */
+    });
 
     it('Should respond with 404 (not found) if the user doesnt have an enrollment', async () => {
       const user = await createUser();
@@ -140,12 +140,12 @@ describe('GET /hotels/:hotelId', () => {
   });
 
   describe('when token is valid', () => {
-    /* it('Should respond with 404 (not found) if an hotel doesnt exist', async () => {
+    it('Should respond with 404 (not found) if an hotel doesnt exist', async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const { status } = await server.get('/hotels/1').set('Authorization', `Bearer ${token}`);
       expect(status).toBe(404);
-    }); */
+    });
 
     it('Should respond with 404 (not found) if the user doesnt have an enrollment', async () => {
       const user = await createUser();
