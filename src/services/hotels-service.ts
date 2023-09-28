@@ -2,8 +2,8 @@ import { notFoundError, paymentRequiredError } from "@/errors";
 import { hotelsRepository } from "@/repositories";
 
 async function getHotels(userId: number) {
-  const hotel = await hotelsRepository.getHotels();
-  if (hotel.length === 0) throw notFoundError('sorry, but we dont have hotels avaliable right now');
+  const hotels = await hotelsRepository.getHotels();
+  if (hotels.length === 0) throw notFoundError('sorry, but we dont have hotels right now');
 
   const enrollment = await hotelsRepository.getEnrollmentByUserId(userId);
   if (!enrollment) throw notFoundError('you dont have a enrollment yet');
@@ -17,7 +17,7 @@ async function getHotels(userId: number) {
 
   if (!ticket.TicketType.includesHotel) throw paymentRequiredError('your ticket doesnt include a hotel');
 
-  return hotel;
+  return hotels;
 };
 
 async function getHotelsById(userId: number, hotelId: number) {
