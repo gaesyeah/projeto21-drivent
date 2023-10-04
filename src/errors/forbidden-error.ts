@@ -1,8 +1,8 @@
 import { ApplicationError } from '@/protocols';
 
-export function forbiddenError(message: string = 'Outside the business rules'): ApplicationError {
+export function forbiddenError(message: string = 'Outside of the business rules'): ApplicationError {
   return {
-    name: 'forbiddenError',
+    name: 'ForbiddenError',
     message,
   };
 }
