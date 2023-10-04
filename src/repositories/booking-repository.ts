@@ -1,11 +1,17 @@
 import { prisma } from '@/config';
 
-async function getTicketInfos(userId: number){
+async function getUserInfosById(userId: number){
   return await prisma.user.findUnique({
     where: {
       id: userId
     },
     select: {
+      Booking: {
+        select: {
+          id: true,
+          Room: true
+        }
+      },
       Enrollment: {
         select: {
           Ticket: {
@@ -22,7 +28,7 @@ async function getTicketInfos(userId: number){
         }
       }
     }
-  })
+  });
 };
 
 async function getRoomInfoById(roomId: number){
@@ -53,8 +59,13 @@ async function postBooking(userId: number, roomId: number){
   });
 };
 
+async function getBooking(userId: number){
+
+}
+
 export const bookingRepository = {
-  getTicketInfos,
+  getUserInfosById,
   getRoomInfoById,
-  postBooking
+  postBooking,
+  getBooking
 };
