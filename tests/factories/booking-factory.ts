@@ -1,7 +1,7 @@
 import { prisma } from "@/config";
 import faker from "@faker-js/faker";
 
-export async function createBooking(userId: number, roomCapacity: number){
+export async function createRoom(capacity: number = 10){
   const hotel = await prisma.hotel.create({
     data: {
       image: faker.internet.url(),
@@ -9,18 +9,23 @@ export async function createBooking(userId: number, roomCapacity: number){
     }
   });
 
-  const room = await prisma.room.create({
+  return await prisma.room.create({
     data: {
       hotelId: hotel.id,
       name: faker.company.companyName(),
-      capacity: roomCapacity
+      capacity
+    },
+    select: {
+      id: true
     }
   });
+}
 
+export async function createBooking(userId: number, roomId: number){
   return await prisma.booking.create({
     data: {
       userId,
-      roomId: room.id
+      roomId
     },
     select: {
       id: true,
