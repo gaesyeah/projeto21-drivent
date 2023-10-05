@@ -251,3 +251,77 @@ describe("POST /booking", () => {
     expect(promise).resolves.toEqual({ bookingId: id });
   });
 });
+
+describe("PUT /booking", () => {
+  it("Should throw an error when room doesnt exist", async () => {
+    jest.spyOn(bookingRepository, "getRoomInfoById").mockImplementationOnce((): any => {
+      return null;
+    });
+    const promise = bookingService.putBooking(1, 1, 1);
+    expect(promise).rejects.toEqual({ 
+      name: 'NotFoundError', 
+      message: 'Room not found' 
+    });
+  });
+
+  it("Should throw an error when the room has already reached maximum capacity", async () => {
+    jest.spyOn(bookingRepository, "getRoomInfoById").mockImplementationOnce((): any => {
+      return {
+        capacity: 1,
+        _count: {
+          Booking: 1
+        }
+      };
+    });
+    const promise = bookingService.putBooking(1, 1, 1);
+    expect(promise).rejects.toEqual({
+      name: 'ForbiddenError',
+      message: 'This room has already reached maximum capacity'
+    });
+  });
+
+  it("Should throw an error when doesnt have a booking", async () => {
+    jest.spyOn(bookingRepository, "getRoomInfoById").mockImplementationOnce((): any => {
+      return {
+        capacity: 10,
+        _count: {
+          Booking: 1
+        }
+      };
+    });
+    jest.spyOn(bookingRepository, "getUserInfosById").mockImplementationOnce((): any => {
+      return {
+        Booking: null
+      }
+    });
+    const promise = bookingService.putBooking(1, 1, 1);
+    expect(promise).rejects.toEqual({ 
+      name: 'ForbiddenError', 
+      message: 'You dont have a booking yet' 
+    });
+  });
+
+  it("Should return the booking when the user edit it", async () => {
+    jest.spyOn(bookingRepository, "getRoomInfoById").mockImplementationOnce((): any => {
+      return {
+        capacity: 10,
+        _count: {
+          Booking: 1
+        }
+      };
+    });
+    jest.spyOn(bookingRepository, "getUserInfosById").mockImplementationOnce((): any => {
+      return {
+        Booking: { }
+      };
+    });
+    const id : number = 1;
+    jest.spyOn(bookingRepository, "putBooking").mockImplementationOnce((): any => {
+      return {
+        id
+      }
+    });
+    const promise = bookingService.putBooking(1, 1, 1);
+    expect(promise).resolves.toEqual({ bookingId: id });
+  });
+});
